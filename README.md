@@ -6,10 +6,6 @@
 
 Atlas REST Explorer is a polished browser app built to demonstrate practical REST API integration. It combines country metadata, capital weather, and population indicators into one interactive dashboard with visible request telemetry.
 
-## GitHub Description
-
-Interactive REST API dashboard that chains country, weather, and population endpoints with caching, filtering, fallback data, and a live request log.
-
 ## Overview
 
 The app starts by loading a country collection from REST Countries. Selecting a country fetches a detailed country resource, then uses that response to make two follow-up requests:
@@ -38,18 +34,6 @@ The interface intentionally exposes the API layer. Every request is logged with 
 | REST Countries | `GET /v3.1/alpha/{code}?fields=...` | Fetches detail for the selected country. |
 | Open-Meteo | `GET /v1/forecast?latitude={lat}&longitude={lng}&current=...` | Fetches current weather for the capital city. |
 | World Bank | `GET /v2/country/{code}/indicator/SP.POP.TOTL?format=json&date=2019:2023` | Fetches recent population indicators. |
-
-## REST Concepts Demonstrated
-
-- Resource-oriented endpoints using collection and detail URLs.
-- Path parameters for country codes.
-- Query parameters built with `URLSearchParams`.
-- Field selection to limit response payload size.
-- Chained requests where one response provides parameters for the next request.
-- Parallel follow-up requests with `Promise.allSettled`.
-- HTTP status and latency reporting.
-- Client-side caching for repeated resource reads.
-- Error handling and fallback state for public API failures.
 
 ## Tech Stack
 
@@ -104,16 +88,6 @@ Public APIs can change, rate limit, or briefly fail. The app accounts for this i
 - Failed collection loads fall back to a built-in sample dataset.
 - Follow-up API calls use `Promise.allSettled` so one failed insight does not block the rest of the selected country view.
 - Repeated requests are served from an in-memory cache and marked as cache hits in the UI.
-
-## Portfolio Talking Points
-
-This project is useful for demonstrating:
-
-- Designing a small API client around real public services.
-- Building a UI that makes asynchronous network behavior observable.
-- Handling partial failure without collapsing the full experience.
-- Coordinating multiple REST resources into one coherent product flow.
-- Writing framework-free JavaScript with clear separation between state, data access, and rendering.
 
 ## Future Improvements
 
