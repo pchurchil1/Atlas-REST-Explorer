@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Atlas REST Explorer</title>
+    <link rel="preconnect" href="https://restcountries.com" />
+    <link rel="preconnect" href="https://api.open-meteo.com" />
+    <link rel="preconnect" href="https://api.worldbank.org" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">REST API showcase</p>
+          <h1>Atlas REST Explorer</h1>
+        </div>
+        <div class="status-strip" aria-live="polite">
+          <span class="status-dot" id="connectionDot"></span>
+          <span id="connectionText">Preparing requests</span>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <aside class="country-panel" aria-label="Country browser">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Resource collection</p>
+              <h2>Countries</h2>
+            </div>
+            <button class="icon-button" id="refreshButton" type="button" aria-label="Refresh countries" title="Refresh countries">
+              <span aria-hidden="true">↻</span>
+            </button>
+          </div>
+
+          <label class="search-field">
+            <span>Search countries</span>
+            <input id="searchInput" type="search" placeholder="Japan, Brazil, Kenya..." autocomplete="off" />
+          </label>
+
+          <div class="filter-row" aria-label="Region filter">
+            <button class="filter-chip active" type="button" data-region="all">All</button>
+            <button class="filter-chip" type="button" data-region="Africa">Africa</button>
+            <button class="filter-chip" type="button" data-region="Americas">Americas</button>
+            <button class="filter-chip" type="button" data-region="Asia">Asia</button>
+            <button class="filter-chip" type="button" data-region="Europe">Europe</button>
+            <button class="filter-chip" type="button" data-region="Oceania">Oceania</button>
+          </div>
+
+          <div class="collection-meta">
+            <span id="resultCount">0 countries</span>
+            <span id="cacheCount">0 cached</span>
+          </div>
+
+          <div class="country-list" id="countryList" role="list"></div>
+        </aside>
+
+        <section class="detail-panel" aria-label="Selected country details">
+          <div class="hero-band">
+            <div class="hero-copy">
+              <p class="eyebrow">Selected resource</p>
+              <h2 id="countryName">Choose a country</h2>
+              <p id="countrySummary">Select a country to trigger chained REST calls for profile, current weather, and World Bank population data.</p>
+            </div>
+            <img id="flagImage" class="flag-image" alt="" />
+          </div>
+
+          <div class="detail-grid">
+            <article class="stat-card">
+              <p>Capital</p>
+              <strong id="capitalValue">-</strong>
+            </article>
+            <article class="stat-card">
+              <p>Population</p>
+              <strong id="populationValue">-</strong>
+            </article>
+            <article class="stat-card">
+              <p>Region</p>
+              <strong id="regionValue">-</strong>
+            </article>
+            <article class="stat-card">
+              <p>Currency</p>
+              <strong id="currencyValue">-</strong>
+            </article>
+          </div>
+
+          <div class="insight-layout">
+            <section class="insight-panel">
+              <div class="section-title">
+                <div>
+                  <p class="eyebrow">Chained GET</p>
+                  <h3>Capital weather</h3>
+                </div>
+                <span class="method-pill">Open-Meteo</span>
+              </div>
+              <div class="weather-block">
+                <div>
+                  <p class="weather-temp" id="weatherTemp">-</p>
+                  <p id="weatherCaption">Waiting for coordinates</p>
+                </div>
+                <div class="weather-meta">
+                  <span id="windValue">Wind -</span>
+                  <span id="timezoneValue">Timezone -</span>
+                </div>
+              </div>
+            </section>
+
+            <section class="insight-panel">
+              <div class="section-title">
+                <div>
+                  <p class="eyebrow">Versioned REST</p>
+                  <h3>Population trend</h3>
+                </div>
+                <span class="method-pill">World Bank</span>
+              </div>
+              <div class="bars" id="populationBars" aria-label="Population trend chart"></div>
+            </section>
+          </div>
+
+          <section class="request-panel">
+            <div class="section-title">
+              <div>
+                <p class="eyebrow">Observable API layer</p>
+                <h3>Request log</h3>
+              </div>
+              <button class="text-button" id="clearLogButton" type="button">Clear</button>
+            </div>
+            <div class="request-log" id="requestLog"></div>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <template id="countryCardTemplate">
+      <button class="country-card" type="button" role="listitem">
+        <img class="country-flag" alt="" />
+        <span>
+          <strong></strong>
+          <small></small>
+        </span>
+      </button>
+    </template>
+
+    <template id="requestTemplate">
+      <article class="request-row">
+        <div>
+          <strong></strong>
+          <small></small>
+        </div>
+        <span></span>
+      </article>
+    </template>
+
+    <script src="app.js" type="module"></script>
+  </body>
+</html>
